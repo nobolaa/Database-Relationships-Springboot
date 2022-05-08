@@ -1,9 +1,13 @@
 package com.example.relationshipsSpringboot.subject;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.example.relationshipsSpringboot.student.Student;
+import com.example.relationshipsSpringboot.subject.Subject;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Subject {
@@ -11,6 +15,14 @@ public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @ManyToMany
+    @JoinTable(
+            name = "subject_student",
+            joinColumns = { @JoinColumn(name = "subject_id") },
+            inverseJoinColumns = { @JoinColumn(name = "student_id") }
+    )
+    private Set<Student> students = new HashSet<>();
 
     private String name;
 
@@ -26,4 +38,11 @@ public class Subject {
         this.name = name;
     }
 
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void enrollStudents(Student student) {
+        students.add(student);
+    }
 }

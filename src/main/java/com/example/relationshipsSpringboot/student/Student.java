@@ -1,9 +1,10 @@
 package com.example.relationshipsSpringboot.student;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Student {
@@ -11,6 +12,10 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "students")
+    private Set<Student> subjects = new HashSet<>();
 
     private String name;
 
@@ -24,6 +29,10 @@ public class Student {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Student> getSubjects() {
+        return subjects;
     }
 
 }
