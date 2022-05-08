@@ -2,6 +2,7 @@ package com.example.relationshipsSpringboot.subject;
 
 import com.example.relationshipsSpringboot.student.Student;
 import com.example.relationshipsSpringboot.subject.Subject;
+import com.example.relationshipsSpringboot.teacher.Teacher;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -24,6 +25,10 @@ public class Subject {
     )
     private Set<Student> students = new HashSet<>();
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="teacher_id", referencedColumnName = "id")
+    private Teacher teacher;
+
     private String name;
 
     public Long getId() {
@@ -41,8 +46,14 @@ public class Subject {
     public Set<Student> getStudents() {
         return students;
     }
-
     public void enrollStudents(Student student) {
         students.add(student);
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+    public void addTeacher(Teacher teacher) {
+        this.teacher = teacher;
     }
 }
